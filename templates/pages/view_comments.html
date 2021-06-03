@@ -1,0 +1,117 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+
+
+<!-- Begin page content -->
+        {% block content %}
+
+        <div class="row">
+            <div class="col">
+                <p>На данной странице  отображаются все созданные комментарии.
+                    Всего {{ count }} комментариев</p>
+                <hr>
+            </div>
+        </div>
+{% if request.user.is_authenticated %}
+<h1>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/Flower.png' %}" width="32" height="32" alt="">
+                Барыбино Садовод переписка....
+            </a>
+
+            <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button-->
+
+
+            <!--div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="form-inline"><a class="btn btn-outline-secondary" href="{% url 'list_snippet' %}">Все
+                        сниппеты</a></li>
+                    <li class="form-inline"><a class="btn btn-outline-info" href="{% url 'list_snippet_privat' %}">
+                        Только публичные сниппеты</a></li>
+                    <li class="form-inline"><a class="btn btn-outline-info" href="{% url 'list_snippet_my' %}">
+                        Только Мои сниппеты</a></li>
+                </ul>
+            </div-->
+
+        </div>
+        </nav>
+        </h1>
+       {% endif %}
+
+        <table class = 'table table-striped'>
+              <thead class="thead-dark">
+              <tr>
+                  <th scope="col">Номер</th>
+                  <th scope="col">Автор</th>
+                  <th scope="col">   </th>
+                  <th scope="col"> К Заметке.. </th>
+                  <th scope="col"> От даты:</th>
+
+                  <th scope="col"> Текст Комментария </th>
+              </tr>
+              </thead>
+            <tbody>
+            {% for comment in comments %}
+            <tr>
+                <td scope="row">{{comment.id}}  </td>
+                <td scope="row"> {{comment.author.username|default:'Anonimous'}}</td>
+                {% if comment.author.username == request.user.username %}
+                <td> <a href="{% url 'comment_delete' id=comment.id %}"> Удалить </a> </td>
+                {% else %}
+                <td scope="row">........  </td>
+                {% endif %}
+                <td> {{comment.snippet.name }}  </td>
+                <td> {{comment.creation_date|date:"d M Y" }}  </td>
+
+
+                <td> {{ comment.text }}</td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    <div class='pagination'>
+        <span class="step-links">
+            {% if comments.has_previous %}
+            <a href="?page={{comments.previous_page_number}}">Prev</a>
+            {% endif %}
+            <span class="current">
+                Page {{comments.number}} of {{comments.paginator.num_pages }}.
+            </span>
+            {% if comments.has_next %}
+                <a href="?page={{comments.next_page_number }} "> next</a>
+            {% endif %}
+        </span>
+    </div>
+
+        <!--div class="row">
+            <div class="col-4 offset-2">
+                Список сниппетов:
+                <ul>
+                    {% for snippet in snippets %}
+
+
+                <li> {{ snippet.name  }} .. {{ snippet.id  }} </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+        </div-->
+
+    <!--/div-->
+<!--/main-->
+
+                {% endblock %}
+
+
+<!-- Optional JavaScript -->
+

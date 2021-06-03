@@ -1,0 +1,61 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block content %}
+        <div class="row">
+            <div class="col">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <!--{{ form.as_p }}-->
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            {{ form.tarif}}
+                            <input name='name' type="text" class="form-control form-control-lg" placeholder="Комментарий">
+                            {{ form.comment }}
+
+                             <!--input name='lang' type="text" class="form-control form-control-lg" placeholder="Язык программирования "-->
+                            <!--div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Язык сниппета
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Python</a>
+                                    <a class="dropdown-item" href="#">JavaScript</a>
+                                    <a class="dropdown-item" href="#">C++</a>
+                                </div>
+                            </div-->
+
+                             <!--input name='lang' type="text" class="form-control form-control-lg" placeholder="Язык программирования "-->
+                            <!--div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Язык сниппета
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Python</a>
+                                    <a class="dropdown-item" href="#">JavaScript</a>
+                                    <a class="dropdown-item" href="#">C++</a>
+                                </div>
+                            </div-->
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary btn-block"
+                                   value={{button|default:"Сохранить"}}>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+
+<!-- Optional JavaScript -->
+

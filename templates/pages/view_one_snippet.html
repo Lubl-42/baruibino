@@ -1,0 +1,101 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+
+        {% block content %}
+
+        <!--div class="row">
+            <div class="col">
+                <p>Добро пожаловать, уважаемый пользователь!
+                <p>На этом сайте ты сможешь сохранить свои заготовки кода на различных языках программирования<br>
+                    А также делиться ими с другими пользователями...
+                <hr>
+            </div>
+        </div-->
+
+        <div class="row">
+            <div class="col-4 offset-2">
+                Выбранная заметка:
+                <ul>
+
+
+                <li> Заголовок: {{ snippet.name  }}</li>
+                <li> Тема: {{ snippet.lang  }}</li>
+                <li> Дата публикации: {{ snippet.creation_date  }}</li>
+                    <li> Автор: {{ snippet.user  }}</li>
+                <li> Текст: {{ snippet.code  }}</li>
+
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4 offset-2">
+                Комментарии:
+                <ul>
+                    {% for comment in comments %}
+                <li> Автор: {{ comment.author.username }}</li>
+                <li> Комментарий: {{ comment.text  }}</li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+
+{% if request.user.is_authenticated %}
+
+            <form action="{% url 'add_comment' %}" method="post">
+                    {% csrf_token %}
+
+                <input type="hidden" name="snippet" value="{{ snippet.id }}">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ comment_form.text }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary btn-block"
+                                   value="Сохранить">
+                        </div>
+                    </div>
+            </form>
+{% endif %}
+        <div class="col mt-3">
+            <div class="col-4 offset-4">
+                {% if request.user.username == snippet.user.username %}
+                <a href="{% url 'delete' id=snippet.id %}"  class="btn btn-secondary btn-block">Удалить заметку </a>
+                <a href="{% url 'edit_snippet' id=snippet.id %}" class="btn btn-secondary btn-block">Редактировать заметку</a>
+                {% endif %}
+                <a href="{% url 'list_snippet' %}" class="btn btn-secondary btn-block">Вернуться к просмотру</a>
+            </div>
+        </div>
+
+        <!--div class="row mt-3">
+            <div class="col">
+                <hr>
+                <h4>Найти сниппет по номеру</h4>
+                <form action='' id="view_snippet_form">
+                    <div class="form-group row">
+                        <label for="snippet_id" class="col-sm-2 col-form-label col-form-label-lg">Номер:</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control form-control-lg" id="snippet_id"
+                                   placeholder="введите число">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="submit" class="form-control form-control-lg btn btn-info" value="Найти">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div-->
+
+
+{% endblock %}
+
+<!-- Optional JavaScript -->

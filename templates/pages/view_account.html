@@ -1,0 +1,158 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+
+
+<!-- Begin page content -->
+        {% block content %}
+
+        <div class="row">
+            <div class="col">
+                <p>На данной странице  отображаются все операции по счету садовода.
+                    Садовод {{ user.username }}  Фамилия {{user.first_name}} Контактные данные  {{user.last_name}}</p>
+                <hr>
+                <p> Последний платеж {{last_pay.creation_date|date:"d M Y" }}  Баланс на сегодня {{ballance}} рублей</p>
+            </div>
+        </div>
+{% if request.user.is_authenticated %}
+<h1>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/Flower.png' %}" width="32" height="32" alt="">
+                СНТ САДОВОД БАРЫБИНО Участок {{ user.id}}
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!--div class="collapse navbar-collapse" id="navbarCollapse"-->
+                <!--ul class="navbar-nav mr-auto"-->
+                    <!--li class="form-inline"><a class="btn btn-outline-secondary" href="{% url 'list_snippet' %}">Все
+                        комментарии</a></li-->
+                    <!--li class="form-inline"><a class="btn btn-outline-info" href="{% url 'list_snippet_privat' %}">
+                        Только публичные сниппеты</a></li-->
+                    <!--li class="form-inline"><a class="btn btn-outline-info" href="{% url 'list_snippet_my' %}">
+                        Только Мои комментарии</a></li-->
+                <!--/ul-->
+            <!--/div-->
+
+        </div>
+        </nav>
+        </h1>
+       {% endif %}
+
+        <table class = 'table table-striped'>
+              <thead class="thead-dark">
+              <tr>
+                  <th scope="col">Дата</th>
+                  <th scope="col">Сумма начисления/уплаты </th>
+                  <th scope="col"> Просмотр операции </th>
+                  <th scope="col"> комментарий:</th>
+
+                  <!--th scope="col"> Public </th-->
+              </tr>
+              </thead>
+            <tbody>
+            {% for item in account %}
+            <tr>
+                <td scope="row">{{item.creation_date|date:"d M Y" }}  </td>
+                <td scope="row"> {{item.amount}} рублей</td>
+                <td scope="row"> <a href="{% url 'view_one_account' id=item.id  %}"> посмотреть </a> </td>
+                <td> {{item.comment|default:"Без комментариев" }}  </td>
+
+
+                <!--td> {{ snippet.visible }}</td-->
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    <div class='pagination'>
+        <span class="step-links">
+            {% if account.has_previous %}
+            <a href="?page={{account.previous_page_number}}">Prev</a>
+            {% endif %}
+            <span class="current">
+                Page {{account.number}} of {{account.paginator.num_pages }}.
+            </span>
+            {% if account.has_next %}
+                <a href="?page={{account.next_page_number }} "> Next</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% if request.user.is_superuser %}
+            <form action="{% url 'add_cred' %}" method="post">
+                    {% csrf_token %}
+
+                <input type="hidden" name="user" value="{{ user.id }}">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ account_form.amount }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ account_form.comment }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary btn-block"
+                                   value="Сохранить начисление">
+                        </div>
+                    </div>
+            </form>
+
+            <form action="{% url 'add_deb' %}" method="post">
+                    {% csrf_token %}
+
+                <input type="hidden" name="user" value="{{ user.id }}">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ account_form.amount }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ account_form.comment }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary btn-block"
+                                   value="Сохранить платеж">
+                        </div>
+                    </div>
+            </form>
+
+{% endif %}
+
+
+    <!--/div-->
+<!--/main-->
+
+                {% endblock %}
+
+
+<!-- Optional JavaScript -->
+

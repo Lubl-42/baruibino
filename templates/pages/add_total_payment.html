@@ -1,0 +1,66 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block content %}
+{% if request.user.is_superuser %}
+        <div class="row">
+            <div class="col">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <!--{{ form.as_p }}-->
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            Введите сумму общкго платежа для распределения среди садоводов
+                            <!--input name='name' type="text" class="form-control form-control-lg" placeholder="Название сниппета"-->
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-8">
+                            <h3> Общая сумма  </h3>
+                            {{ form.amount }}
+                             <!--input name='lang' type="text" class="form-control form-control-lg" placeholder="Язык программирования "-->
+                            <!--div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Язык сниппета
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Python</a>
+                                    <a class="dropdown-item" href="#">JavaScript</a>
+                                    <a class="dropdown-item" href="#">C++</a>
+                                </div>
+                            </div-->
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col">
+                            <h3> Общий комментарий для всех садоводов  </h3>
+                            {{ form.comment }}
+                            <!--textarea name='code' cols="96" rows="10" placeholder="Код сниппета"></textarea-->
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary btn-block" value={{button|default:"Сохранить"}}>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endif %}
+<div class="col mt-3">
+            <div class="col-4 offset-4">
+
+            <a href="{% url 'home' %}" class="btn btn-secondary btn-block">Вернуться на гдавную</a>
+            </div>
+</div>
+{% endblock %}
+
+
+<!-- Optional JavaScript -->
+

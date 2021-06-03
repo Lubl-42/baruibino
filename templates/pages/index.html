@@ -1,0 +1,74 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+
+        {% block content %}
+
+        <div class="row">
+            <div class="col">
+                <p>Добро пожаловать, уважаемый садовод!
+                <p>На этом сайте ты сможешь сохранить свои заметки по поводу нашего СНТ<br>
+                 <p>   А также делиться ими с другими пользователями... <br>
+                <p> Для доступа к сайту необходимо обязательно авторизироваться   </p>
+
+                <hr>
+            </div>
+        </div>
+
+        {% if request.user.is_authenticated %}
+
+        <div class="row mt-3">
+            <div class="col-4 offset-4">
+                <a href="{% url 'add_snippet' %}" class="btn btn-secondary btn-block">Добавить заметку</a>
+                <a href="{% url 'view_comments' %}" class="btn btn-secondary btn-block">Посмотреть все комментарии</a>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-4 offset-4">
+                <a href="{% url 'account_personal' %}" class="btn btn-secondary btn-block">Посмотреть свой лицевой счет</a>
+                <a href="{% url 'add_elektro' %}" class="btn btn-secondary btn-block">Ввести показания электросчетчика</a>
+
+            </div>
+        </div>
+
+{% if request.user.is_superuser %}
+
+        <div class="row mt-3">
+            <div class="col-4 offset-4">
+                <a href="{% url 'add_tarif' %}" class="btn btn-secondary btn-block">  Ввести новый тариф</a>
+                <a href="{% url 'view_tarif' %}" class="btn btn-secondary btn-block">  Посмотреть все тарифы</a>
+                <a href="{% url 'add_total_payment' %}" class="btn btn-secondary btn-block">Распределить общий платеж</a>
+                <a href="{% url 'elektro_view_all' %}" class="btn btn-secondary btn-block"> Просмотр всех показаний счетчиков</a>
+                <a href="{% url 'ballance_view' %}" class="btn btn-secondary btn-block">Посмотреть балланс по СНТ</a>
+                <a href="{% url 'users_view_all' %}" class="btn btn-secondary btn-block">Посмотреть список пользователей </a>
+            </div>
+        </div>
+{% endif %}
+
+        <div class="row mt-3">
+            <div class="col">
+                <hr>
+                <h4>Найти заметку по номеру</h4>
+                <form action='{% url 'view_one_snippet' id=0 %}' method='post'>  <!-- id="snippet_id"-->
+                {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="snippet_id" class="col-sm-2 col-form-label col-form-label-lg">Номер:</label>
+                        <div class="col-sm-8">
+                            <input name="id" type="number" class="form-control form-control-lg" id="snippet_id"
+                                   placeholder="введите число">
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="submit" class="form-control form-control-lg btn btn-info" value="Найти">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+{% endif %}
+
+{% endblock %}
+
+<!-- Optional JavaScript -->

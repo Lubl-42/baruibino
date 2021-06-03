@@ -1,0 +1,106 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+
+
+<!-- Begin page content -->
+        {% block content %}
+
+        <div class="row">
+            <div class="col">
+                <p> Садовод {{ user.username }}  Фамилия {{user.first_name}} Контактные данные  {{user.last_name}}</p>
+                <hr>
+            </div>
+        </div>
+{% if request.user.is_authenticated %}
+<h1>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/Flower.png' %}" width="32" height="32" alt="">
+                СНТ САДОВОД БАРЫБИНО Участок {{ user.id}} ID {{ account.id }}
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <!--div class="collapse navbar-collapse" id="navbarCollapse"-->
+                <!--ul class="navbar-nav mr-auto"-->
+                    <!--li class="form-inline"><a class="btn btn-outline-secondary" href="{% url 'list_snippet' %}">Все
+                        комментарии</a></li-->
+                    <!--li class="form-inline"><a class="btn btn-outline-info" href="{% url 'list_snippet_privat' %}">
+                        Только публичные сниппеты</a></li-->
+                    <!--li class="form-inline"><a class="btn btn-outline-info" href="{% url 'list_snippet_my' %}">
+                        Только Мои комментарии</a></li-->
+                <!--/ul-->
+            <!--/div-->
+
+        </div>
+        </nav>
+</h1>
+       {% endif %}
+
+
+
+
+    <!--div class='pagination'>
+        <span class="step-links">
+            {% if snippets.has_previous %}
+            <a href="?page={{snippets.previous_page_number}}">Prev</a>
+            {% endif %}
+            <span class="current">
+                Page {{snippets.number}} of {{snippets.paginator.num_pages }}.
+            </span>
+            {% if snippets.has_next %}
+                <a href="?page={{snippets.next_page_number }} "> next</a>
+            {% endif %}
+        </span>
+    </div-->
+
+            <form action="" method="post">
+                    {% csrf_token %}
+
+                <input type="hidden" name="user" value="{{ user.id }}">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ account_form.amount }}
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col">
+                            {{ account_form.comment }}
+
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input type="submit" class="btn btn-primary btn-block"
+                                   value="Сохранить операцию">
+                        </div>
+                    </div>
+            </form>
+
+
+
+
+
+
+    <!--/div-->
+<!--/main-->
+
+                {% endblock %}
+
+
+<!-- Optional JavaScript -->
+

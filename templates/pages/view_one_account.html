@@ -1,0 +1,54 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+
+
+        {% block content %}
+
+
+
+        <table class = 'table table-striped'>
+              <thead class="thead-dark">
+              <tr>
+                  <th scope="col">Номер</th>
+                  <th scope="col">Сумма платежа </th>
+
+                  <th scope="col"> Дата Платежа:</th>
+                  <th scope="col"> Комментарии : </th>
+                  <!--th scope="col"> Public </th-->
+              </tr>
+              </thead>
+
+            <tbody>
+                <tr>
+                    <td scope="row">{{account.id}}  </td>
+                    <td scope="row"> {{account.amount}} руб. </td>
+                    <td> {{account.creation_date|date:"d M Y" }}  </td>
+                    <td> {{account.comment}} </td>
+                    <!--td> {{ snippet.visible }}</td-->
+                </tr>
+            </tbody>
+        </table>
+
+
+
+
+
+        <div class="col mt-3">
+            <div class="col-4 offset-4">
+                {% if request.user.is_superuser %}
+                <a href="{% url 'account_delete' id=account.id %}"  class="btn btn-secondary btn-block">Удалить платеж </a>
+                <a href="{% url 'account_edit' id=account.id %}" class="btn btn-secondary btn-block">Редактировать платеж </a>
+                {% endif %}
+                <a href="{% url 'view_account' id=user.id %}" class="btn btn-secondary btn-block">Вернуться к просмотру</a>
+            </div>
+        </div>
+
+
+
+
+
+
+{% endblock %}
+
+<!-- Optional JavaScript -->
